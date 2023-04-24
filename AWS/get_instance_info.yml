@@ -55,13 +55,13 @@
         wait_timeout: 45
 
     - name: Update the Windows AWS machine credential
-      awx.awx.credential:
+      ansible.controller.credential:
         controller_host: "{{ controller.host }}"
         controller_password: "{{ controller.password }}"
         controller_username: "{{ controller.username }}"
         controller_oauthtoken: "{{ new_token.json.token }}"
-        name: Windows AWS
-        organization: Akrieger Company
+        name: Windows AWS Administrator
+        organization: Red Hat
         description: Used in the Windows AWS Demo
         state: present
         update_secrets: true
@@ -71,7 +71,7 @@
           password: "{{ admin_passwd }}"
 
     - name: Update the Windows AWS Inventory
-      awx.awx.host:
+      ansible.controller.host:
         controller_host: "{{ controller.host }}"
         controller_password: "{{ controller.password }}"
         controller_username: "{{ controller.username }}"
