@@ -6,16 +6,20 @@
     vars:
        region: ''
        servername: ''
+       controller: 
+         host: '{{ lookup("env", "CONTROLLER_HOST") }}'
+         username: '{{ lookup("env", "CONTROLLER_USERNAME") }}'
+         password: '{{ lookup("env", "CONTROLLER_PASSWORD") }}'
        
     tasks:
 
     - name: Get an AAP API Token and store it as new_token
       register: new_token
       ansible.builtin.uri:
-        url: '{{ lookup("env", "controller_host") }} /api/v2/tokens/'
+        url: 'https://{{ host }}/api/v2/tokens/'
         method: POST
-        user: '{{ lookup("env", "controller_user") }}'
-        password: '{{ lookup("env", "controller_password") }}'
+        user: 'username'
+        password: 'password'
         validate_certs: no
         force_basic_auth: yes
         status_code: 201
@@ -52,9 +56,9 @@
 
     - name: Update the Windows AWS machine credential
       awx.awx.credential:
-        controller_host: '{{ lookup("env", "controller_host") }}'
-        controller_password: '{{ lookup("env", "controller_password") }}'
-        controller_username: '{{ lookup("env", "controller_user") }}'
+        controller_host: 'host'
+        controller_password: 'password'
+        controller_username: 'username'
         controller_oauthtoken: "{{ new_token.json.token }}"
         name: Windows AWS
         organization: Ames Company
@@ -68,9 +72,9 @@
 
     - name: Update the Windows AWS Managed Inventory
       awx.awx.host:
-        controller_host: '{{ lookup("env", "controller_host") }}'
-        controller_password: '{{ lookup("env", "controller_password") }}'
-        controller_username: '{{ lookup("env", "controller_user") }}'
+        controller_host: 'host'
+        controller_password: 'password'
+        controller_username: 'username'
         controller_oauthtoken: "{{ new_token.json.token }}"
         name: "{{ instance_info.instances[0].public_dns_name }}"
         inventory: "Windows AWS Inventory - Managed"
