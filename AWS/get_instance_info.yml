@@ -61,23 +61,23 @@
         controller_username: "{{ controller.username }}"
         controller_oauthtoken: "{{ new_token.json.token }}"
         name: Windows AWS
-        organization: Ames Company
+        organization: Akrieger Company
         description: Used in the Windows AWS Demo
         state: present
         update_secrets: true
         credential_type: Machine
         inputs:
           username: Administrator
-          password: "{{ admin_passwd.win_password }}"
+          password: "{{ admin_passwd }}"
 
-    - name: Update the Windows AWS Managed Inventory
+    - name: Update the Windows AWS Inventory
       awx.awx.host:
         controller_host: "{{ controller.host }}"
         controller_password: "{{ controller.password }}"
         controller_username: "{{ controller.username }}"
         controller_oauthtoken: "{{ new_token.json.token }}"
         name: "{{ instance_info.instances[0].public_dns_name }}"
-        inventory: "Windows AWS Inventory - Managed"
+        inventory: "AWS Hosts"
         state: present
         enabled: true
     
