@@ -7,8 +7,8 @@
        region: ''
        servername: ''
        controller: 
-         host: '{{ lookup("env", "CONTROLLER_HOST") }}'
-         username: '{{ lookup("env", "CONTROLLER_USERNAME") }}'
+         url: '{{ lookup("env", "CONTROLLER_HOST") }}'
+         user: '{{ lookup("env", "CONTROLLER_USERNAME") }}'
          password: '{{ lookup("env", "CONTROLLER_PASSWORD") }}'
        
     tasks:
@@ -16,9 +16,9 @@
     - name: Get an AAP API Token and store it as new_token
       register: new_token
       ansible.builtin.uri:
-        url: "https://{{ controller.host }}/api/v2/tokens/"
+        url: "https://{{ controller.url }}/api/v2/tokens/"
         method: POST
-        user: "{{ controller.username }}"
+        user: "{{ controller.user }}"
         password: "{{ controller.password }}"
         validate_certs: no
         force_basic_auth: yes
@@ -56,9 +56,9 @@
 
     - name: Update the Windows AWS machine credential
       ansible.controller.credential:
-        controller_host: "{{ controller.host }}"
+        controller_host: "{{ controller.url }}"
         controller_password: "{{ controller.password }}"
-        controller_username: "{{ controller.username }}"
+        controller_username: "{{ controller.user }}"
         controller_oauthtoken: "{{ new_token.json.token }}"
         name: Windows AWS Administrator
         organization: Red Hat
@@ -72,9 +72,9 @@
 
     - name: Update the Windows AWS Inventory
       ansible.controller.host:
-        controller_host: "{{ controller.host }}"
+        controller_host: "{{ controller.url }}"
         controller_password: "{{ controller.password }}"
-        controller_username: "{{ controller.username }}"
+        controller_username: "{{ controller.user }}"
         controller_oauthtoken: "{{ new_token.json.token }}"
         name: "{{ instance_info.instances[0].public_dns_name }}"
         inventory: "AWS Hosts"
