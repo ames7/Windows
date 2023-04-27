@@ -6,7 +6,7 @@
     vars: 
       controller: 
          host: '{{ lookup("env", "CONTROLLER_HOST") }}'
-         username: '{{ lookup("env", "CONTROLLER_USERNAME") }}'
+         user: '{{ lookup("env", "CONTROLLER_USERNAME") }}'
          password: '{{ lookup("env", "CONTROLLER_PASSWORD") }}'
 
     tasks:
@@ -29,7 +29,7 @@
         ansible.builtin.uri:
           url: "https://{{ controller.host }}/api/v2/tokens/"
           method: POST
-          user: "{{ controller.username }}"
+          user: "{{ controller.user }}"
           password: "{{ controller.password }}"
           validate_certs: no
           force_basic_auth: yes
