@@ -3,6 +3,11 @@
     hosts: localhost
     connection: local
     gather_facts: no
+    vars: 
+      controller: 
+         host: '{{ lookup("env", "CONTROLLER_HOST") }}'
+         username: '{{ lookup("env", "CONTROLLER_USERNAME") }}'
+         password: '{{ lookup("env", "CONTROLLER_PASSWORD") }}'
 
     tasks:
 
@@ -22,10 +27,10 @@
       - name: Get an AAP API Token and store it as new_token
         register: new_token
         ansible.builtin.uri:
-          url: "https://{{ controller_url }}/api/v2/tokens/"
+          url: "https://{{ controller.host }}/api/v2/tokens/"
           method: POST
-          user: "{{ username }}"
-          password: "{{ password }}"
+          user: "{{ controller.username }}"
+          password: "{{ controller.password }}"
           validate_certs: no
           force_basic_auth: yes
           status_code: 201
@@ -37,7 +42,7 @@
 
       - name: Kick off an inventory sync
         ansible.builtin.uri:
-          url: "https://{{ controller_url }}/api/v2/inventory_sources/{{ inventory_id }}/update/"
+          url: "https://{{ controller.host }}/api/v2/inventory_sources/{{ inventory_id }}/update/"
           headers:
             Authorization: "Bearer {{ new_token.json.token }}"
             Content-Type: "application/json"
