@@ -6,7 +6,6 @@
     vars:
        region: ''
        servername: ''
-       ssh_key: ''
        controller: 
          url: '{{ lookup("env", "CONTROLLER_HOST") }}'
          user: '{{ lookup("env", "CONTROLLER_USERNAME") }}'
