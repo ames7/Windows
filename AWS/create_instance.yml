@@ -50,7 +50,7 @@
             amazon.aws.ec2_instance:
               name: "Windows Web Server"
               region: "{{region}}"
-              key_name: "{{ssh_key}}"
+              key_name: "{{ vpc_name}}-ssh-key"
               vpc_subnet_id: "{{vpc_subnet_id}}"
               instance_type: "{{instance_type}}"
               security_group: "{{ec2_security_group_name}}"
