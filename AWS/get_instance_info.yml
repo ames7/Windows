@@ -43,10 +43,10 @@
      # ansible.builtin.debug:
     #     msg: "{{ instance_info.instances[0].instance_id }}"
 
-   # - name: Printing out instance_info.instances[0].instance_id
-     # when: instance_info.instances[0].instance_id is defined
-    #  ansible.builtin.debug:
-     #    msg: "{{ ssh_key }}"
+    - name: Printing out instance_info.instances[0].instance_id
+      when: instance_info.instances[0].instance_id is defined
+      ansible.builtin.debug:
+         msg: "{{ ssh_key }}"
 
     - name: get the Administrator password
       register: admin_passwd
