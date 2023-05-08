@@ -7,10 +7,10 @@
 
     - name: Print out the hosts
       ansible.builtin.debug:
-        msg: "{{ inventory_hostname }}"
+        msg: "{{instance_info.instances[0].instance_id}}" 
 
     - name: Make the hosts available to the next playbook
       register: delete_inventory_host
       ansible.builtin.set_stats:
         data:
-          delete_inventory_host: "{{ inventory_hostname }}"
+          delete_instance_id: "{{ instance_info.instances[0].instance_id }}"
