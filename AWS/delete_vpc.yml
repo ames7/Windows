@@ -4,8 +4,6 @@
     connection: local
     gather_facts: no
     vars:
-       aws_access_key: ''
-       aws_secret_key: ''
        vpc_name: ''
        vpc_cidr: ''
        region: ''
@@ -16,7 +14,6 @@
        ec2_rt_name: "{{vpc_name}}_RT_Internet"
        ec2_igw_name: "{{vpc_name}}_IGW"
        my_email_address: "{{user_name}}@redhat.com"
-       deleteby: ''
 
     tasks:
 
