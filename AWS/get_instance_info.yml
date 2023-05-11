@@ -43,14 +43,14 @@
      # ansible.builtin.debug:
     #     msg: "{{ instance_info.instances[0].instance_id }}"
 
-    - name: Printing out instance_info.instances[0].instance_id
-      when: instance_info.instances[0].instance_id is defined
-      ansible.builtin.debug:
-         msg: "{{ akrieger_ssh_key }}"
+   # - name: Printing out instance_info.instances[0].instance_id
+     # when: instance_info.instances[0].instance_id is defined
+     # ansible.builtin.debug:
+      #   msg: "{{ akrieger_ssh_key }}"
 
     - name: get the Administrator password
       register: admin_passwd
-      no_log: true
+      #no_log: true
       ignore_errors: true
       community.aws.ec2_win_password:
         instance_id: "{{ instance_info.instances[0].instance_id }}"
@@ -58,6 +58,11 @@
         key_data: "{{ akrieger_ssh_key }}"
         wait: true
         wait_timeout: 45
+
+    - name: Printing out admin_passwd
+      when: instance_info.instances[0].instance_id is defined
+      ansible.builtin.debug:
+         msg: "{{ admin_passwd }}"   
 
     - name: Update the Windows AWS machine credential
       ansible.controller.credential:
